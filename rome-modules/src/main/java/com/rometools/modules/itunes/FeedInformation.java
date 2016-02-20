@@ -55,50 +55,50 @@ public interface FeedInformation extends ITunes {
 
     /**
      * The parent categories for this feed
-     *
+     * 
      * @return The parent categories for this feed
      */
     public List<Category> getCategories();
 
     /**
      * The parent categories for this feed
-     *
+     * 
      * @param categories The parent categories for this feed
      */
     public void setCategories(List<Category> categories);
 
-    public boolean getComplete();
+    public Boolean getComplete();
 
-    public void setComplete(boolean complete);
+    public void setComplete(Boolean complete);
 
-    public String getNewFeedUrl();
+    public URL getNewFeedUrl();
 
-    public void setNewFeedUrl(String newFeedUrl);
+    public void setNewFeedUrl(URL newFeedUrl);
 
     /**
      * Sets the owner email address for the feed.
-     *
+     * 
      * @param ownerEmailAddress Sets the owner email address for the feed.
      */
     public void setOwnerEmailAddress(String ownerEmailAddress);
 
     /**
      * Returns the owner email address for the feed.
-     *
+     * 
      * @return Returns the owner email address for the feed.
      */
     public String getOwnerEmailAddress();
 
     /**
      * Sets the owner name for the feed
-     *
+     * 
      * @param ownerName Sets the owner name for the feed
      */
     public void setOwnerName(String ownerName);
 
     /**
      * Returns the owner name for the feed
-     *
+     * 
      * @return Returns the owner name for the feed
      */
     public String getOwnerName();

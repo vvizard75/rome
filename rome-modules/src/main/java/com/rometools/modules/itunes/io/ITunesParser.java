@@ -54,13 +54,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.rometools.modules.itunes.AbstractITunesObject;
+import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.itunes.EntryInformationImpl;
 import com.rometools.modules.itunes.FeedInformationImpl;
+import com.rometools.modules.itunes.ITunes;
 import com.rometools.modules.itunes.types.Category;
 import com.rometools.modules.itunes.types.Duration;
 import com.rometools.modules.itunes.types.Subcategory;
+import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.io.ModuleParser;
 import com.rometools.rome.io.WireFeedParser;
+import com.rometools.utils.Integers;
 
 /**
  * @version $Revision: 1.10 $
@@ -70,12 +74,23 @@ public class ITunesParser implements ModuleParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(ITunesParser.class);
 
-    Namespace ns = Namespace.getNamespace(AbstractITunesObject.URI);
+    private final Namespace ns;
 
     /** Creates a new instance of ITunesParser */
     public ITunesParser() {
+        this(Namespace.getNamespace(AbstractITunesObject.URI));
     }
 
+    /**
+     * @param ns target namespace
+     */
+    protected ITunesParser(final Namespace ns) {
+        this.ns = ns;
+    }
+
+    /**
+     * @param feedParser ignored
+     */
     public void setParser(final WireFeedParser feedParser) {
     }
 
@@ -85,7 +100,7 @@ public class ITunesParser implements ModuleParser {
     }
 
     @Override
-    public com.rometools.rome.feed.module.Module parse(final Element element, final Locale locale) {
+    public Module parse(final Element element, final Locale locale) {
         AbstractITunesObject module = null;
 
         if (element.getName().equals("channel")) {
@@ -132,10 +147,14 @@ public class ITunesParser implements ModuleParser {
             if (complete != null) {
                 feedInfo.setComplete("yes".equals(complete.getTextTrim().toLowerCase()));
             }
-
+            
             final Element newFeedUrl = element.getChild("new-feed-url", ns);
             if (newFeedUrl != null) {
-                feedInfo.setNewFeedUrl(newFeedUrl.getTextTrim());
+                try {
+                    feedInfo.setNewFeedUrl(new URL(newFeedUrl.getTextTrim()));
+                } catch (final MalformedURLException e) {
+                    LOG.debug("Malformed URL Exception reading itunes:new-feed-url tag: {}", newFeedUrl.getTextTrim());
+                }
             }
 
         } else if (element.getName().equals("item")) {
@@ -145,16 +164,15 @@ public class ITunesParser implements ModuleParser {
             // Now I am going to get the item specific tags
 
             final Element duration = element.getChild("duration", ns);
-
             if (duration != null && duration.getValue() != null) {
                 final Duration dur = new Duration(duration.getValue().trim());
                 entryInfo.setDuration(dur);
             }
 
-            final Element closedCaptioned = element.getChild("isClosedCaptioned", ns);
+            final Element isClosedCaptioned = element.getChild("isClosedCaptioned", ns);
 
-            if (closedCaptioned != null && closedCaptioned.getValue() != null && closedCaptioned.getValue().trim().equalsIgnoreCase("yes")) {
-                entryInfo.setClosedCaptioned(true);
+            if (isClosedCaptioned != null && isClosedCaptioned.getValue() != null ) {
+                entryInfo.setClosedCaptioned(EntryInformation.ClosedCaptioned.valueOf(isClosedCaptioned.getTextTrim().toLowerCase()));
             }
 
             final Element order = element.getChild("order", ns);
@@ -175,13 +193,13 @@ public class ITunesParser implements ModuleParser {
             final Element block = element.getChild("block", ns);
 
             if (block != null) {
-                module.setBlock(true);
+                module.setBlock("yes".equals(block.getTextTrim().toLowerCase()));
             }
 
             final Element explicit = element.getChild("explicit", ns);
 
-            if (explicit != null && explicit.getValue() != null && explicit.getValue().trim().equalsIgnoreCase("yes")) {
-                module.setExplicit(true);
+            if (explicit != null && explicit.getValue() != null) {
+                module.setExplicit(ITunes.Explicit.valueOf(explicit.getTextTrim().toLowerCase()));
             }
 
             final Element keywords = element.getChild("keywords", ns);
@@ -219,6 +237,7 @@ public class ITunesParser implements ModuleParser {
                     LOG.debug("Malformed URL Exception reading itunes:image tag: {}", image.getAttributeValue("href"));
                 }
             }
+
         }
 
         return module;

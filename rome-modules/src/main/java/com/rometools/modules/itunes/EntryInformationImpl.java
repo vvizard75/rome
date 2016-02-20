@@ -40,14 +40,14 @@
  */
 package com.rometools.modules.itunes;
 
-import com.rometools.modules.itunes.types.Duration;
-import com.rometools.rome.feed.CopyFrom;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.rometools.modules.itunes.types.Duration;
+import com.rometools.rome.feed.CopyFrom;
 
 /**
  * This class contains information for iTunes podcast feeds that exist at the Item level.
@@ -64,7 +64,7 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
     private static final Logger LOG = LoggerFactory.getLogger(EntryInformationImpl.class);
 
     private Duration duration;
-    private boolean closedCaptioned;
+    private ClosedCaptioned closedCaptioned;
     private Integer order;
 
     /**
@@ -75,7 +75,7 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
 
     /**
      * Returns the Duration object for this Item
-     *
+     * 
      * @return Returns the Duration object for this Item
      */
     @Override
@@ -85,7 +85,7 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
 
     /**
      * Sets the Duration object for this Item
-     *
+     * 
      * @param duration Sets the Duration object for this Item
      */
     @Override
@@ -94,12 +94,12 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
     }
 
     @Override
-    public boolean getClosedCaptioned() {
+    public ClosedCaptioned getClosedCaptioned() {
         return closedCaptioned;
     }
 
     @Override
-    public void setClosedCaptioned(boolean closedCaptioned) {
+    public void setClosedCaptioned(final ClosedCaptioned closedCaptioned) {
         this.closedCaptioned = closedCaptioned;
     }
 
@@ -109,13 +109,13 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
     }
 
     @Override
-    public void setOrder(Integer order) {
+    public void setOrder(final Integer order) {
         this.order = order;
     }
 
     /**
      * Defined by the ROME module API
-     *
+     * 
      * @param obj Object to copy from
      */
     @Override
@@ -150,7 +150,7 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
 
     /**
      * Required by the ROME API
-     *
+     * 
      * @return A clone of this module object
      */
     @Override
@@ -163,16 +163,15 @@ public class EntryInformationImpl extends AbstractITunesObject implements EntryI
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("[");
-        sb.append(" duration: ");
-        sb.append(getDuration());
-        sb.append(" closedCaptioned: ");
-        sb.append(getClosedCaptioned());
-        sb.append(" order: ");
-        sb.append(getOrder());
-        sb.append("]");
-        sb.append(super.toString());
-
-        return sb.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("EntryInformationImpl [duration=");
+        builder.append(duration);
+        builder.append(", closedCaptioned=");
+        builder.append(closedCaptioned);
+        builder.append(", order=");
+        builder.append(order);
+        builder.append("]");
+        return builder.toString();
     }
+
 }

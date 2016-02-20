@@ -90,10 +90,10 @@ public class ITunesGenerator implements ModuleGenerator {
         if (itunes instanceof FeedInformationImpl) {
             // Do Channel Specific Stuff.
             final FeedInformationImpl info = (FeedInformationImpl) itunes;
+
             final Element owner = generateSimpleElement("owner", "");
             final Element email = generateSimpleElement("email", info.getOwnerEmailAddress());
             owner.addContent(email);
-
             final Element name = generateSimpleElement("name", info.getOwnerName());
             owner.addContent(name);
             element.addContent(owner);
@@ -113,12 +113,16 @@ public class ITunesGenerator implements ModuleGenerator {
                 element.addContent(category);
             }
 
-            if (info.getComplete()) {
-                element.addContent(generateSimpleElement("complete", "yes"));
+            if (info.getComplete() != null) {
+                if (info.getComplete()) {
+                    element.addContent(generateSimpleElement("complete", "yes"));
+                } else {
+                    element.addContent(generateSimpleElement("complete", "no"));
+                }
             }
 
             if (info.getNewFeedUrl() != null) {
-                element.addContent(generateSimpleElement("new-feed-url", info.getNewFeedUrl()));
+                element.addContent(generateSimpleElement("new-feed-url", info.getNewFeedUrl().toExternalForm()));
             }
 
         } else if (itunes instanceof EntryInformationImpl) {
@@ -127,8 +131,8 @@ public class ITunesGenerator implements ModuleGenerator {
             if (info.getDuration() != null) {
                 element.addContent(generateSimpleElement("duration", info.getDuration().toString()));
             }
-            if (info.getClosedCaptioned()) {
-                element.addContent(generateSimpleElement("isClosedCaptioned", "yes"));
+            if (info.getClosedCaptioned() != null) {
+                element.addContent(generateSimpleElement("isClosedCaptioned", info.getClosedCaptioned().name()));
             }
             if (info.getOrder() != null) {
                 element.addContent(generateSimpleElement("order", info.getOrder().toString()));
@@ -143,10 +147,8 @@ public class ITunesGenerator implements ModuleGenerator {
             element.addContent(generateSimpleElement("block", ""));
         }
 
-        if (itunes.getExplicit()) {
-            element.addContent(generateSimpleElement("explicit", "yes"));
-        } else {
-            element.addContent(generateSimpleElement("explicit", "no"));
+        if (itunes.getExplicit() != null) {
+            element.addContent(generateSimpleElement("explicit", itunes.getExplicit().name()));
         }
 
         if (itunes.getImage() != null) {

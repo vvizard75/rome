@@ -67,8 +67,8 @@ public class FeedInformationImpl extends AbstractITunesObject implements FeedInf
     private String ownerName;
     private String ownerEmailAddress;
     private List<Category> categories;
-    private boolean complete;
-    private String newFeedUrl;
+    private Boolean complete;
+    private URL newFeedUrl;
 
     /**
      * Creates a new instance of FeedInformationImpl
@@ -97,22 +97,22 @@ public class FeedInformationImpl extends AbstractITunesObject implements FeedInf
     }
 
     @Override
-    public boolean getComplete() {
+    public Boolean getComplete() {
         return complete;
     }
 
     @Override
-    public void setComplete(boolean complete) {
+    public void setComplete(final Boolean complete) {
         this.complete = complete;
     }
 
     @Override
-    public String getNewFeedUrl() {
+    public URL getNewFeedUrl() {
         return newFeedUrl;
     }
 
     @Override
-    public void setNewFeedUrl(String newFeedUrl) {
+    public void setNewFeedUrl(final URL newFeedUrl) {
         this.newFeedUrl = newFeedUrl;
     }
 
@@ -193,7 +193,7 @@ public class FeedInformationImpl extends AbstractITunesObject implements FeedInf
         setSubtitle(info.getSubtitle());
         setSummary(info.getSummary());
     }
-
+    
     /**
      * Returns a copy of this FeedInformationImpl object
      *
@@ -209,20 +209,19 @@ public class FeedInformationImpl extends AbstractITunesObject implements FeedInf
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("[");
-        sb.append(" email: ");
-        sb.append(getOwnerEmailAddress());
-        sb.append(" name: ");
-        sb.append(getOwnerName());
-        sb.append(" categories: ");
-        sb.append(getCategories());
-        sb.append(" complete: ");
-        sb.append(getComplete());
-        sb.append(" newFeedUrl: ");
-        sb.append(getNewFeedUrl());
-        sb.append("]");
-        sb.append(super.toString());
-
-        return sb.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("FeedInformationImpl [ownerName=");
+        builder.append(ownerName);
+        builder.append(", ownerEmailAddress=");
+        builder.append(ownerEmailAddress);
+        builder.append(", categories=");
+        builder.append(categories);
+        builder.append(", complete=");
+        builder.append(complete);
+        builder.append(", newFeedUrl=");
+        builder.append(newFeedUrl);
+        builder.append("]");
+        return builder.toString();
     }
+    
 }

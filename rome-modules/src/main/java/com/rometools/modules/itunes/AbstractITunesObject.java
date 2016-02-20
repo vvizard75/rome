@@ -41,6 +41,7 @@
 package com.rometools.modules.itunes;
 
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * This is an abstract object that implements the attributes common across Feeds or Items in an
@@ -75,7 +76,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
     public static final String PREFIX = "itunes";
     private String author;
     private boolean block;
-    private boolean explicit;
+    private Explicit explicit;
     private URL image;
     private String[] keywords;
     private String subtitle;
@@ -83,7 +84,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Defined by the ROME API
-     *
+     * 
      * @return Class of the Interface for this module.
      */
     @Override
@@ -93,7 +94,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * The URI this module implements
-     *
+     * 
      * @return "http://www.itunes.com/dtds/podcast-1.0.dtd"
      */
     @Override
@@ -103,7 +104,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Required by the ROME API
-     *
+     * 
      * @return A clone of this module object
      */
     @Override
@@ -111,7 +112,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Returns the author string for this feed or entry
-     *
+     * 
      * @return Returns the author string for this feed or entry
      */
     @Override
@@ -121,7 +122,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Sets the author string for this feed or entry
-     *
+     * 
      * @param author Sets the author string for this feed or entry
      */
     @Override
@@ -131,7 +132,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Boolean as to whether to block this feed or entry
-     *
+     * 
      * @return Boolean as to whether to block this feed or entry
      */
     @Override
@@ -141,7 +142,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Boolean as to whether to block this feed or entry
-     *
+     * 
      * @param block Boolean as to whether to block this feed or entry
      */
     @Override
@@ -151,21 +152,21 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * Boolean as to whether this feed or entry contains adult content
-     *
+     * 
      * @return Boolean as to whether this feed or entry contains adult content
      */
     @Override
-    public boolean getExplicit() {
+    public Explicit getExplicit() {
         return explicit;
     }
 
     /**
      * Boolean as to whether this feed or entry contains adult content
-     *
+     * 
      * @param explicit Boolean as to whether this feed or entry contains adult content
      */
     @Override
-    public void setExplicit(final boolean explicit) {
+    public void setExplicit(final Explicit explicit) {
         this.explicit = explicit;
     }
 
@@ -181,9 +182,9 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A list of keywords for this feed or entry
-     *
+     * 
      * Must not contain spaces
-     *
+     * 
      * @return A list of keywords for this feed or entry
      */
     @Override
@@ -193,9 +194,9 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A list of keywords for this feed or entry
-     *
+     * 
      * Must not contain spaces
-     *
+     * 
      * @param keywords A list of keywords for this feed or enty
      */
     @Override
@@ -205,7 +206,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A subtitle for this feed or entry
-     *
+     * 
      * @return A subtitle for this feed or entry
      */
     @Override
@@ -215,7 +216,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A subtitle for this feed or entry
-     *
+     * 
      * @param subtitle A subtitle for this feed or entry
      */
     @Override
@@ -225,7 +226,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A subtitle for this feed or entry
-     *
+     * 
      * @return A subtitle for this feed or entry
      */
     @Override
@@ -235,7 +236,7 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     /**
      * A subtitle for this feed or entry
-     *
+     * 
      * @param summary A subtitle for this feed or entry
      */
     @Override
@@ -245,29 +246,23 @@ public abstract class AbstractITunesObject implements ITunes, java.lang.Cloneabl
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("[");
-        sb.append(" Author: ");
-        sb.append(getAuthor());
-        sb.append(" Block: ");
-        sb.append(getBlock());
-        sb.append(" Explicit: ");
-        sb.append(getExplicit());
-        sb.append(" Image: ");
-        sb.append(getImage());
-        sb.append(" Keywords: ");
-
-        if (getKeywords() != null) {
-            for (int i = 0; i < keywords.length; i++) {
-                sb.append("'" + getKeywords()[i] + "'");
-            }
-        }
-
-        sb.append(" Subtitle: ");
-        sb.append(getSubtitle());
-        sb.append(" Summary: ");
-        sb.append(getSummary());
-        sb.append("]");
-
-        return sb.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("AbstractITunesObject [author=");
+        builder.append(author);
+        builder.append(", block=");
+        builder.append(block);
+        builder.append(", explicit=");
+        builder.append(explicit);
+        builder.append(", image=");
+        builder.append(image);
+        builder.append(", keywords=");
+        builder.append(Arrays.toString(keywords));
+        builder.append(", subtitle=");
+        builder.append(subtitle);
+        builder.append(", summary=");
+        builder.append(summary);
+        builder.append("]");
+        return builder.toString();
     }
+
 }

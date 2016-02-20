@@ -53,6 +53,15 @@ import com.rometools.modules.itunes.types.Duration;
 public interface EntryInformation extends ITunes {
 
     /**
+     * marker for closed captioning support on video.
+     * 
+     * @see http://www.apple.com/itunes/podcasts/specs.html#isClosedCaptioned
+     */
+    enum ClosedCaptioned {
+        yes, no
+    }
+
+    /**
      * Returns the Duration object for this Item
      *
      * @return Returns the Duration object for this Item
@@ -66,9 +75,9 @@ public interface EntryInformation extends ITunes {
      */
     public void setDuration(Duration duration);
 
-    public boolean getClosedCaptioned();
+    public ClosedCaptioned getClosedCaptioned();
 
-    public void setClosedCaptioned(boolean closedCaptioned);
+    public void setClosedCaptioned(ClosedCaptioned closedCaptioned);
 
     public Integer getOrder();
 
