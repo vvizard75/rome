@@ -16,31 +16,19 @@
  */
 package com.rometools.rome.feed.synd;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.jdom2.Element;
-
 import com.rometools.rome.feed.CopyFrom;
 import com.rometools.rome.feed.impl.CopyFromHelper;
 import com.rometools.rome.feed.impl.ObjectBean;
-import com.rometools.rome.feed.module.DCModule;
-import com.rometools.rome.feed.module.DCModuleImpl;
-import com.rometools.rome.feed.module.Module;
-import com.rometools.rome.feed.module.SyModule;
-import com.rometools.rome.feed.module.SyModuleImpl;
+import com.rometools.rome.feed.module.*;
 import com.rometools.rome.feed.module.impl.ModuleUtils;
 import com.rometools.rome.feed.synd.impl.URINormalizer;
 import com.rometools.utils.Dates;
 import com.rometools.utils.Lists;
 import com.rometools.utils.Strings;
+import org.jdom2.Element;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Bean for entries of SyndFeedImpl feeds.
@@ -86,7 +74,7 @@ public class SyndEntryImpl implements Serializable, SyndEntry {
 
     static {
 
-        IGNORE_PROPERTIES.add("publishedDate");
+//        IGNORE_PROPERTIES.add("publishedDate");
         IGNORE_PROPERTIES.add("author");
 
         final Map<String, Class<?>> basePropInterfaceMap = new HashMap<String, Class<?>>();

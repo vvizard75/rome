@@ -16,18 +16,12 @@
  */
 package com.rometools.rome.feed.module;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.rometools.rome.feed.CopyFrom;
 import com.rometools.rome.feed.impl.CopyFromHelper;
 import com.rometools.rome.feed.impl.ObjectBean;
 import com.rometools.utils.Lists;
+
+import java.util.*;
 
 /**
  * Dublin Core ModuleImpl, default implementation.
@@ -76,7 +70,7 @@ public class DCModuleImpl extends ModuleImpl implements DCModule {
         IGNORE_PROPERTIES.add("description");
         IGNORE_PROPERTIES.add("publisher");
         IGNORE_PROPERTIES.add("contributor");
-        IGNORE_PROPERTIES.add("date");
+//        IGNORE_PROPERTIES.add("date");
         IGNORE_PROPERTIES.add("type");
         IGNORE_PROPERTIES.add("format");
         IGNORE_PROPERTIES.add("identifier");

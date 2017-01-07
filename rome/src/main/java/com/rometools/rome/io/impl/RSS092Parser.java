@@ -16,24 +16,17 @@
  */
 package com.rometools.rome.io.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import com.rometools.rome.feed.WireFeed;
+import com.rometools.rome.feed.rss.*;
 import org.jdom2.Content;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rometools.rome.feed.WireFeed;
-import com.rometools.rome.feed.rss.Category;
-import com.rometools.rome.feed.rss.Channel;
-import com.rometools.rome.feed.rss.Cloud;
-import com.rometools.rome.feed.rss.Description;
-import com.rometools.rome.feed.rss.Enclosure;
-import com.rometools.rome.feed.rss.Item;
-import com.rometools.rome.feed.rss.Source;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class RSS092Parser extends RSS091UserlandParser {
 
@@ -102,6 +95,11 @@ public class RSS092Parser extends RSS091UserlandParser {
     @Override
     protected Item parseItem(final Element rssRoot, final Element eItem, final Locale locale) {
         final Item item = super.parseItem(rssRoot, eItem, locale);
+
+        final Element pubDate = eItem.getChild("pubDate", getRSSNamespace());
+        if (pubDate != null) {
+            item.setPubDate(DateParser.parseDate(pubDate.getText(), locale));
+        }
 
         final Element eSource = eItem.getChild("source", getRSSNamespace());
         if (eSource != null) {

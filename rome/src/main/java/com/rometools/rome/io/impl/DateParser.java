@@ -36,7 +36,7 @@ import java.util.TimeZone;
  */
 public class DateParser {
 
-    private static String[] ADDITIONAL_MASKS;
+    private static String[] ADDITIONAL_MASKS={ "EEE, dd MMM yy HH:mm:ss"};
 
     // order is like this because the SimpleDateFormat.parse does not fail with exception if it can
     // parse a valid date out of a substring of the full string given the mask so we have to check
@@ -193,7 +193,15 @@ public class DateParser {
     public static Date parseW3CDateTime(String sDate, final Locale locale) {
         // if sDate has time on it, it injects 'GTM' before de TZ displacement to allow the
         // SimpleDateFormat parser to parse it properly
+        if ((sDate.length()>8) && sDate.indexOf(" ")==10){
+            sDate=sDate.replace(" ", "T");
+            if (sDate.length()==19){
+                sDate=sDate.concat("Z");
+            }
+        }
+
         final int tIndex = sDate.indexOf("T");
+
         if (tIndex > -1) {
             if (sDate.endsWith("Z")) {
                 sDate = sDate.substring(0, sDate.length() - 1) + "+00:00";

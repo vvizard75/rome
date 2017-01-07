@@ -16,19 +16,12 @@
  */
 package com.rometools.rome.feed.synd.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rometools.rome.feed.rss.Category;
 import com.rometools.rome.feed.rss.Enclosure;
 import com.rometools.rome.feed.rss.Item;
-import com.rometools.rome.feed.synd.SyndCategory;
-import com.rometools.rome.feed.synd.SyndCategoryImpl;
-import com.rometools.rome.feed.synd.SyndEnclosure;
-import com.rometools.rome.feed.synd.SyndEnclosureImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.*;
+
+import java.util.*;
 
 public class ConverterForRSS092 extends ConverterForRSS091Userland {
 
@@ -65,6 +58,12 @@ public class ConverterForRSS092 extends ConverterForRSS091Userland {
         final List<Enclosure> enclosures = item.getEnclosures();
         if (!enclosures.isEmpty()) {
             syndEntry.setEnclosures(createSyndEnclosures(enclosures));
+        }
+
+        final Date pubDate = item.getPubDate();
+        final Date publishedDate = syndEntry.getPublishedDate();
+        if (pubDate != null && publishedDate == null) {
+            syndEntry.setPublishedDate(pubDate); // c
         }
 
         return syndEntry;
@@ -108,6 +107,8 @@ public class ConverterForRSS092 extends ConverterForRSS091Userland {
         if (!sEnclosures.isEmpty()) {
             item.setEnclosures(createEnclosures(sEnclosures));
         }
+
+        item.setPubDate(sEntry.getPublishedDate()); // c
 
         return item;
 
