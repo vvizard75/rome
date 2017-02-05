@@ -16,26 +16,13 @@
  */
 package com.rometools.rome.feed.synd.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rometools.rome.feed.WireFeed;
 import com.rometools.rome.feed.module.DCModule;
-import com.rometools.rome.feed.rss.Channel;
-import com.rometools.rome.feed.rss.Content;
-import com.rometools.rome.feed.rss.Description;
-import com.rometools.rome.feed.rss.Image;
-import com.rometools.rome.feed.rss.Item;
-import com.rometools.rome.feed.synd.SyndContent;
-import com.rometools.rome.feed.synd.SyndContentImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.feed.synd.SyndImage;
-import com.rometools.rome.feed.synd.SyndPerson;
+import com.rometools.rome.feed.rss.*;
+import com.rometools.rome.feed.synd.*;
 import com.rometools.utils.Lists;
+
+import java.util.*;
 
 public class ConverterForRSS091Userland extends ConverterForRSS090 {
 
@@ -183,6 +170,12 @@ public class ConverterForRSS091Userland extends ConverterForRSS090 {
             final List<SyndContent> syndContents = new ArrayList<SyndContent>();
             syndContents.add(content);
             syndEntry.setContents(syndContents);
+        }
+
+        final Date pubDate = item.getPubDate();
+        final Date publishedDate = syndEntry.getPublishedDate();
+        if (pubDate != null && publishedDate == null) {
+            syndEntry.setPublishedDate(pubDate); // c
         }
 
         return syndEntry;

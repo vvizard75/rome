@@ -16,15 +16,6 @@
  */
 package com.rometools.rome.io.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
-
 import com.rometools.rome.feed.WireFeed;
 import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.rss.Channel;
@@ -32,6 +23,14 @@ import com.rometools.rome.feed.rss.Image;
 import com.rometools.rome.feed.rss.Item;
 import com.rometools.rome.feed.rss.TextInput;
 import com.rometools.rome.io.FeedException;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 public class RSS090Parser extends BaseWireFeedParser {
 
@@ -293,6 +292,11 @@ public class RSS090Parser extends BaseWireFeedParser {
     protected Item parseItem(final Element rssRoot, final Element eItem, final Locale locale) {
 
         final Item item = new Item();
+
+        final Element pubDate = eItem.getChild("pubDate", getRSSNamespace());
+        if (pubDate != null) {
+            item.setPubDate(DateParser.parseDate(pubDate.getText(), locale));
+        }
 
         final Element title = eItem.getChild("title", getRSSNamespace());
         if (title != null) {
